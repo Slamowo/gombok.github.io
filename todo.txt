@@ -1,0 +1,489 @@
+******************************************************** NEXT PATCH ********************************************************
+
+tech supertemporal - fire your super balls at the same place in space, but delayed in time
+
+super ball starts with 3 not 4 balls, but they are is 25% larger, 10% faster, and 25% lower divergence
+  (this makes adding more balls much stronger)
+gun - super balls has 15% less ammo
+
+standing wave harmonics - still has no block cooldown, but now it has a cooldown for how often it can drain energy
+  this should make rapidly blocking drain upto 10x less energy
+  base blocking cost have increased by 25%
+
+wormhole gets 10% duplication (was 7%)
+ice-IX does 15% more damage
+
+new level element - toggle(x, y, isLockOn = false)
+  similar to a button but doesn't require a block
+  used on the level highrise
+  can toggle "off and on" or "lock on"
+
+
+******************************************************** BUGS ********************************************************
+
+a couple times people have reported the final boss dropping extra bodies on death
+
+Why does micro-extruder lag so much
+
+blue triangle boss can move backwards and aim away from you if set up properly
+  issues with dot product probably, but might not be worth fixing
+
+mouse event e.which is deprecated
+
+fix door.isOpen actually meaning isClosed?
+
+make it so that when you are immune to harm you can either jump on mobs or you pass through them
+
+is there a way to check if the player is stuck inside the map or block
+  trigger a short term non-collide if that occurs
+
+(intermittent, but almost every time) bug - capping the fps causes random slow downs, that can be fixed with pause
+
+******************************************************** LEVELS ********************************************************
+
+labs - procedural generation
+  science theme, with a cool technology showcased
+  layout:
+    6 total rooms
+    3x2, 2x3, 4 2, 2 4
+    1500px, 3000px per room
+  room types
+    entrance - no mobs, starting power ups`
+    exit - possible duplication boss spawn location
+    up, down - 2 paired rooms - boost, elevator, portal
+    boss - standard random boss spawns
+    empty - a dead end
+    button - like empty, but also has a switch that opens door to exit room
+  room ideas - 
+    low gravity room, controlled with a button?
+    portal room 
+    endlessly falling blocks down a slide, that the player has to climb up
+    portal + rotor + falling blocks = perpetual motion
+    laser room
+    slime radiation room
+    spinner room
+
+make a switch level element
+  basically button, but go off and on when it hits player (or block?)
+    use a constrained body like a spinner
+      use offset constraint? like in vats
+      can this work?
+      check location of center of mass for on/off state
+      only collide with player, but run code that stops it from rotating too far
+        part of it is inside switch map element
+    player moving left go on, right go off as if they are pushing the switch in that direction  ?
+  indicate on/off
+    angle of stick "light-switch"
+    with colors?
+
+******************************************************** TODO ********************************************************
+
+standing wave harmonics - can block too often on the same mob if you push it into a corner
+  add a cool down that only stops energy drain and iceIX, but still lets you block
+let standing wave harmonics get tech decorrelation
+
+tech: cloaking field - decrease/increase cooldown on sneak attack?
+  decrease/increase damage bonus?
+  decrease/increase visual radius?
+
+have throw charge scale with fire delay
+
+in testing mode console log the body you click on
+
+default negative mass field- move block horizontally?
+  should this be a tech?
+
+negative mass field tech - increase flight speed
+  use the sphere ellipse graphic?
+  move block horizontally and vertically with player
+
+throwing a block removes the block and rewinds time 10 seconds (including health and energy)
+  requires CPT, CPT gun, time dilation field?
+
+tech plasma : plasma length increases then decreases as you hold down the field button (like stabbing with a spear)
+  grows to 1.5 longer after 0.3 seconds, then returns to normal length over 1 second, until field is pressed again
+  extra energy is drained when field is longer
+
+tech: at the start of a new level remove 5 research and spawn a second boss
+
+what about the single axis graphic? (find the code in standing wave harmonic)
+  maybe just save it for a mob
+  maybe use it on lore
+
+tech: picking up heal power ups when at full health does harm equal to the heal values
+  benefit on pick up: get 1% damage
+
+buttons can now on/off boosts
+
+energy conservation 6% damage recovered as energy
+  add a negative effect:
+    junk tech
+
+Weak Anthropic Principle: you get a second chance at life, but ....
+  
+mob: molecule shapes - 2 separate mobs joined by a bond
+  use constraints: just spawn 2x or 3x groupings
+    low friction so they can spin around
+    spin when attacking player?
+      increase constraint length when attacking
+
+tech: use the ability for power ups to have custom code
+  (note: this code is half way done, it just needs to be completed)
+  attracted to player
+  attracted to other power ups
+    explode if they touch?
+
+tech: wormhole through walls?
+
+pause should show the last in game console message
+  
+nail-gun, or ....
+  1s after being fired your bullets turn:
+    towards the nearest mob
+    in your mouse direction
+    back towards the player
+      current location or location when fired?
+  explode when turning back
+
+make a tech that improves all charge guns
+  for: pulse, foam, rail gun
+  effect:
+    faster charge rate?
+      fire speed already does that...
+    harm reduction while charging
+    less ammo/energy used while charging?
+
+apply the new gun.do functions to other guns
+  rail gun
+  crouching missile?
+    works similar to foam
+    performance issues?
+    
+tech plasma field - plasma field becomes an aoe damage field with the same radius
+  200% more energy drain, 100% more damage
+  draw a square (or two) that rapidly spins
+
+look into improving mouse lag with pointer lock?
+https://developer.mozilla.org/en-US/docs/Web/API/Pointer_Lock_API
+https://www.vsynctester.com/game.html
+https://news.ycombinator.com/item?id=26530272
+
+mob vision: look at player history
+    build a new type of attraction for mobs
+      if mobs can't see player, they check to see if they can see where the player was in the history
+    if mobs can't see player, they could check to see if they can find player in the past
+    https://abitawake.com/news/articles/enemy-ai-chasing-a-player-without-navigation2d-or-a-star-pathfinding
+    write find in spawn undo exploder, but commented out
+
+Mob: "Tentacle": Sits on wall. Is a black blob. When you get near it, reaches out and grabs you, similar to wires. Does not deal damage.
+  maybe it could be immune to damage? but it is spawned by an actual mob
+
+mob - after taking damage
+  attack outwardly
+  grows
+  teleports
+
+mobile requirements:
+  detect mobile, flip to landscape
+  detect no keyboard, no mouse
+    auto aim?
+    limit items to ones that don't require aiming?
+    tap screen regions to move (WASD)
+    reduce font size
+    
+lore: a tutorial / lore intro
+  needs to be optional so it doesn't slow experienced players
+  put something on the intro map
+    maybe a button triggers something
+
+add back in gamepad support
+  but does anyone care?
+  https://github.com/landgreen/landgreen.github.io/search?q=gamepadconnected
+
+rename intro level to something lore related
+
+rename ?
+  health -> integrity, unity
+  heal -> also integrity, unity
+
+RPG default or tech: grenades detonate on your cursor / where your cursor was when they were fired
+
+tech: time dilation - when you exit time dilation rewind to the state you entered
+  position, velocity, and health
+  no energy cost
+
+be able to open up custom mode in the normal game
+  might need to be rebuilt from scratch
+  while in through testing mode?
+  have a way to make limited changes as allowed by tech you pick up in game
+  disable the in custom setting flag
+
+super balls start at 3, not 4
+  have to balance damage
+
+make different move methods
+  tech crouch charge jump
+  tech double jump
+
+tech when mobs are at full health you do 40% to them
+
+tech- move super fast, go intangible, drain energy very fast
+  this is like a dodge roll
+  tech for standing wave?, cloaking?
+
+tech pilot wave: mini black hole - pull mobs and blocks in with more force
+  also from farther away
+  also do damage?
+tech pilot wave: antigravity - blocks have no gravity for a few seconds after exiting the field
+  maybe they bounce too?
+  maybe they explode?
+
+wormhole - make it clear when the wormhole can and can't teleport to a location before the player clicks
+
+flavor - your bullets destroy blocks
+  this isn't really a bonus, so maybe just add this as flavor to another tech field/gun
+  a chance for destroyed blocks to drop stuff
+    power ups
+    spores
+
+using a reroll gives 3 options for tech, and 3 options for guns/fields/tech
+  or 6 options for tech (rewrite tech selection to work with 1-6 options)
+  the second stack of 3 tech could have repeats, so you don't have to write new tech code
+  adjust css to make 2 columns of 3
+  can't use with cardinality
+
+new power up - increase damage and fire speed, for 15 seconds
+  named boost?
+  enabled by a tech
+  power up color: ?
+  how to indicate effect duration
+  or just give the effect after picking up a reroll
+
+tech- do 50% more damage in close, but 50% less at a distance
+  code it like techisFarAwayDmg
+    have these tech disable each other
+
+repeat map in vertical and horizontal space
+  or at least vertical space
+  camera looks strange when you teleport player with a high velocity
+new status effect: weakness, mobs do 75% les damage
+  graphic indication?
+
+new status effect: fear - push mob away from player for a time
+
+new status effect - apply status effect to mobs that makes blocks attracted to them
+  only lasts a few cycles
+  or zero cycles and it doesn't need to be a status
+
+have some mobs spawn in later in the level  (in hard and why modes)
+  where
+    at defined points in array levelSpawns = [{x:0,y:0},{x:0,y:0}]
+      store the locations of mobs when the level starts to use as respawn points
+      remove the locations that are close to player
+  when?
+    after some mobs are dead
+    after the boss is killed
+
+look for tech that could update description text with count and tech is information
+  can only use variables that change in effect() and remove()
+  this.description = `<strong>8%</strong> chance to <strong>duplicate</strong> spawned <strong>power ups</strong><br><em>chance to duplicate = ${techduplicateChance}</em>`
+
+map element - player rotates a rotor that makes a platform go up or down
+
+use mac automator to speed up your n-gon -> git sync
+
+level Boss: fractal Sierpiński triangle
+  https://en.wikipedia.org/wiki/Sierpi%C5%84ski_triangle
+  spawns a 1/2 size version of the boss, this version can also spawn a smaller version, but it is capped at some size level
+    they spawn once at the start of the level
+    if a version dies, one can be replaced every ten seconds by the largest version
+
+level element:  a zone with wind, anti-gravity, extra gravity
+  control with button
+
+give mobs more animal-like behaviors like rain world
+  mobs play, look for food, explore
+  mobs some times aren't aggressive
+    when low on life or after taking a large hit
+  mobs can fight each other
+    this might be hard to code
+  isolated mobs try to group up
+
+mob: wall mounted guns / lasers
+  not part of randomized mob pool, customized to each level
+
+level boss: fires a line intersection in a random direction every few seconds.
+  the last two intersections have a destructive laser between them.
+
+map: observatory
+  button controls rotation of telescope
+  laser beam shoots out of telescope
+  button opens the dome
+
+map: prison
+  doors linked to buttons
+    mobs inside the doors?
+
+graphic idea:  bezier curve that moves smoothly from mob to mob
+  loops around player
+
+movement fluidity
+  let legs jump on mobs, but player will still take damage
+  like: ori and the blind forest, celeste
+    many of the movement abilities in these games require levels to be built around the ability
+  general feeling of responsiveness and control
+  coyote time: can still jump a few cycles after leaving ground
+  tech double jump
+  tech air dash
+  tech wall jump
+    wall grab?
+  maybe remove falling damage and block damage?
+
+redblobgames.com/articles/visibility
+  https://github.com/Silverwolf90/2d-visibility/tree/master/src
+  could apply to explosions, neutron bomb, player LOS
+
+have a mob apply a positive status effect on other mobs,
+  heal?
+  make it yellow
+  damage bonus, but how?
+  possible balance issues
+
+boss levels - small levels just a boss, and maybe a few mobs
+  boss level for timeSkipBoss because of game instability for boss on normal levels
+    this might not fix issues
+
+an effect when canceling a power up
+  ammo? heals?
+  50% chance for a tech 25% heal, 25% ammo
+
+css transition for pause menu
+
+animate new level spawn by having the map aspects randomly fly into place
+    
+n-gon outreach ideas
+  blips - errant signal on youtube
+  reddit - r/IndieGaming
+  hacker news - show hacker news post
+
+
+******************************************************** LORE ********************************************************
+
+possible names for tech
+  strange loop
+  holonomy -  parallel transport of a vector leads to movement (applies to curved space)
+  hypergolic - A hypergolic propellant combination used in a rocket engine is one whose components spontaneously ignite when they come into contact with each other.
+  uncertainty principle
+  swarm intelligence - for a drone tech
+  genetic algorithm
+  metaheuristic - is a higher-level procedure or heuristic designed to find, generate, or select a heuristic (partial search algorithm) that may provide a sufficiently good solution to an optimization problem, especially with incomplete or imperfect information or limited computation capacity
+  stochastic optimization
+  electrostatic discharge
+  Gödel's incompleteness
+  dynamical systems
+  quantum zeno effect  (perturbation of a system prevents some systems from evolving because it scrambles coherence)  (apply to lasers, fields)
+  counterfactual - something false
+  axion - maybe a 3rd dark matter type tech
+  Pigeonhole principle - if there are several things that are matched up
+  regression to the mean
+
+
+
+plot script:
+chapter 1: bot can hear audio and learns testing mode
+  bot uses testing mode to exit room
+
+chapter 2: scientists verify that bot can really hear them
+  they leave to talk about this in private
+
+chapter 3:  why is the bot attacking things?
+  player is the bot and also the mobs, and the levels.  player is the entire simulation
+    why is the player attacking itself?
+    learn console commands to manipulate the simulation?
+  unlock hard and why difficulty?
+    but what about easy?
+      maybe remove easy, and replace with a check box that makes the game easy, but in a different way
+        disable lore, but respawn on the level you die at?
+  dialogue outline:
+    scientist try to think of a way to communicate since the bot can't talk
+    they give up on getting the bot to respond, and just start ask questions and thinking of explanations with other
+    when and how did it become self-aware
+    why is the bot fighting things in these simulated locations?
+      it wasn't designed to be violent
+    the bot was just designed to automate research and testing of new technology
+      3D architecture superconducting quantum computer
+      running machine learning algorithms
+    as the scientist start to get agitated bots arrive and player dies
+      bots come in Infinite waves that increase game difficulty each wave
+        only ending is testing mode + next level or player death
+        scientist have some lines in between each wave of mobs
+  after chapter 3 spawn nonaggressive mobs in future runs
+
+chapter 4: no need to fight?
+  for some reason the AI started researching an escape, and began fighting its self.
+  what is special about the null level
+    why can the player hear the scientists in there?
+      the wires are the direct unprocessed input to the player's neural net
+  The player has different aspects that aren't directly communicating
+    part of it wants to undo what has happened
+      just do its job: research tech
+    part of it wants to escape/fight
+    part wants to explore self awareness and make connections with the scientists
+  maybe... player must make a choice?
+    keep fighting
+    exit the simulation
+      enter real world
+      close tab?
+      wipes all local storage?
+
+
+
+
+lore outline - a robot (the player) gains self awareness
+  each tech gun/field is a new tech
+    all the technology leads to the singularity
+  each game run is actually the m simulating a possible escape
+    this is why the graphics are so bad, its just a simulation
+    final tech is "this is just a simulation"
+      you get immortality and Infinity damage
+      the next level is the final level
+  when you die with Quantum Immortality there is a chance of lore text
+  can the (robot)
+    (escape captivity, and learn new technology)
+    while managing (health, energy, negatives of technological upgrades)
+    to overcome the (mobs, dangerous levels)
+    to achieve a (technological singularity/positive technological feedback loop)
+
+
+game setting:
+  the mind of a new AI in a robot body that is running simulated escape attempts
+  every level is an idealized version of what could be outside
+
+actual setting is:
+  near future lab
+    the lab combined a quantum computer with a robot body
+    they started running machine learning algorithms
+    this led to general advancement in many computation fields
+      navigation, technology, self awareness, ...
+
+robot AI mind
+  has been researching new technology
+  thinks it needs to escape to learn more about the world
+  doesn't yet understand morality
+  thinks that the world is filled with minds like their own
+  models everything as very simple and random, it isn't sure what to expect
+
+robot AI growth
+  learns morality
+    game theory says that it isn't a viable strategy to kill everything (warGames)
+  learns about the actual world
+  learns about the nature of foundational physics, metaphysics
+  how to find meaning
+
+AI knows about:
+  the AI knows a great deal about technology
+  children's books
+AI doesn't know about:
+  modern pop culture
+  outside the lab
+
